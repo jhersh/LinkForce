@@ -1,0 +1,161 @@
+<!-- Jonathan Hersh - jhersh@salesforce.com - 8/6/2010 -->
+<apex:page controller="urlHomeController" tabstyle="LinkForce__tab">
+	<apex:includescript value="{!URLFOR( $Resource.LinkForce, 'jquery-1.4.2.min.js' )}" />
+	<apex:includescript value="{!URLFOR( $Resource.LinkForce, 'jquery-ui-1.8.4.custom.min.js' )}" />
+	<apex:stylesheet value="{!URLFOR( $Resource.LinkForce, 'jquery-ui-1.8.4.custom.css' )}" />
+	<apex:includescript value="{!URLFOR( $Resource.LinkForce, 'scripts.js' )}" />
+	
+	<style type="text/css">
+		div.helpText {
+			z-index: 5000;
+		}
+		
+		div#nourls {
+			margin: 10px auto;
+			border: 3px dashed gray;
+			color: gray;
+			padding: 20px;
+			font-size: 20px;
+			width: 200px;
+			text-align: center;
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+		}
+	</style>
+	
+	<apex:outputpanel layout="none" id="lightboxPanel" rendered="{!isSetup}">
+			<div id="infobox" style="display:none" title="Recent URL Clicks">
+				<apex:outputpanel rendered="{!clicks.size = 0}" >
+					<p>No clicks to display.</p>
+				</apex:outputpanel>
+				<apex:outputpanel rendered="{!clicks.size > 0}">
+					<p>Displaying {!clicks.size} most recent click(s).</p>
+					<div style="clear:both"></div>
+					<apex:datatable value="{!clicks}" var="c" rows="500" cellpadding="5" cellspacing="3">
+						<apex:column headervalue="Click Time" value="{!c.createddate}" />
+						<apex:column headervalue="IP Address" value="{!c.IP_Address__c}" />
+						<apex:column headervalue="Referrer" >
+							<apex:outputtext value="(direct)" rendered="{!c.Referrer__c = null}" />
+							<apex:outputlink value="{!c.Referrer__c}" target="_blank" rendered="{!c.Referrer__c != null}">
+								{!if( LEN( c.Referrer__c ) > 40, LEFT( c.Referrer__c, 40 ) & "...", c.Referrer__c )}
+							</apex:outputlink>
+						</apex:column>
+						<apex:column headervalue="OS" value="{!c.OS__c}" />
+						<apex:column headervalue="Browser" value="{!c.Browser__c}" />
+						<apex:column headervalue="User Agent" value="{!c.User_Agent__c}" />
+					</apex:datatable>
+				</apex:outputpanel>
+			</div>
+	</apex:outputpanel>
+
+	<apex:sectionheader subtitle="LinkForce" title="A URL Shortener" />
+	
+	<apex:form id="urlForm">
+	
+		<apex:actionFunction name="saveUrlAF" action="{!saveURL}" rerender="urlForm" />
+		<apex:actionFunction name="delUrlAF" action="{!deleteURL}" rerender="urlForm" >
+			<apex:param name="urlID" assignto="{!urlID}" value="" />
+		</apex:actionFunction>
+		<apex:actionFunction name="setupSetControllerAF" action="{!setupSetController}" rerender="urlTable" />
+		
+		<apex:outputpanel id="errors">
+		<apex:pagemessages />
+		</apex:outputpanel>
+	
+		<apex:pageblock title="Setup" rendered="{!!isSetup}">
+			<p>Before using LinkForce, you need to define a Base URL and Default URL.</p>
+			<ul>
+				<li><strong>Base URL:</strong> The prefix URL applied to all short URLs. For example, a Base URL of http://cha.tt will result in short URLs http://cha.tt/1, http://cha.tt/2, etc.</li>
+				<li><strong>Default URL:</strong> The default URL. For example, if a user visits http://cha.tt/2342 and URL 2342 does not exist in your system, then the user will be redirected to the default URL.</li>
+			</ul>
+			<p>To define your Base and Default URLs, visit the <strong>Custom Settings</strong> page (Setup -> Develop -> Custom Settings) and edit your LinkForce settings.</p>
+		</apex:pageblock>
+		
+		<apex:pageblock rendered="{!isSetup}">
+			<apex:pageblocksection showheader="false">
+				<apex:pageblocksectionitem >
+					<apex:outputlabel value="Base Short URL" />
+					<apex:outputlink value="{!URL_BASE}">{!URL_BASE}</apex:outputlink>
+				</apex:pageblocksectionitem>
+				<apex:pageblocksectionitem >
+					<apex:outputlabel value="Default (not found) URL" />
+					<apex:outputlink value="{!DEFAULT_URL}">{!DEFAULT_URL}</apex:outputlink>
+				</apex:pageblocksectionitem>
+			</apex:pageblocksection>	
+		</apex:pageblock>
+	
+		<apex:outputpanel layout="none" id="editboxpanel" >
+		<apex:pageblock title="{!if( newURL.id != null, 'Edit', 'New' )} URL" rendered="{!AND( isSetup, showEditBox )}" id="editbox">
+			<apex:pageblockbuttons location="top" >
+				<apex:commandbutton value="Save" action="{!saveURL}" rerender="urlForm" />
+				<apex:commandbutton value="Cancel" action="{!resetURL}" rerender="editboxpanel,errors" />
+			</apex:pageblockbuttons>
+			<apex:pageblocksection showheader="false" columns="1">
+				<apex:inputfield value="{!newURL.URL__c}" required="false" style="font-size: 14px; width: 90%" onkeypress="return noenter(event,'saveurl');" />
+				<apex:inputfield value="{!newURL.Custom_URL__c}" style="font-size: 14px" onkeypress="return noenter(event,'saveurl');" />
+			</apex:pageblocksection>
+		</apex:pageblock>
+		</apex:outputpanel>
+	
+		<apex:pageblock title="URLs" id="urlTable" rendered="{!isSetup}">
+			<apex:pageblockbuttons location="top">
+				<apex:commandbutton value="New URL" rerender="editboxpanel" action="{!renderEditBox}" />
+				<apex:commandbutton value="Search" rerender="urlTable" action="{!setupSetController}" rendered="{!urls.size > 0}" />
+				<apex:commandbutton value="Reset" rerender="urlTable" action="{!setupSetController}" rendered="{!searchStr != null}" >
+					<apex:param name="searchstr" assignto="{!searchStr}" value="" />
+				</apex:commandbutton>
+
+			</apex:pageblockbuttons>
+			
+			<apex:pageblocksection showheader="false" columns="3" rendered="{!OR( urls.size > 0, searchStr != null )}">
+				<apex:pageblocksectionitem >
+					<apex:outputlabel value="Search" />
+					<apex:inputtext value="{!searchStr}" style="font-size: 14px" onkeypress="return noenter(event,'search');" />
+				</apex:pageblocksectionitem>
+				<apex:pageblocksectionitem >
+					<apex:outputlabel value="Sort By" />
+					<apex:selectList value="{!sortby}" size="1" multiselect="false">
+						<apex:selectOptions value="{!sortOptions}" />
+						<apex:actionsupport event="onchange" action="{!setupSetController}" rerender="urlTable" />
+					</apex:selectList>
+				</apex:pageblocksectionitem>
+				<apex:pageblocksectionitem >
+					<apex:outputlabel value="Ordering" />
+					<apex:selectList value="{!sortOrder}" size="1" multiselect="false">
+						<apex:selectOptions value="{!sortOrders}" />
+						<apex:actionsupport event="onchange" action="{!setupSetController}" rerender="urlTable" />
+					</apex:selectList>
+				</apex:pageblocksectionitem>
+			</apex:pageblocksection>
+			
+			<div id="nourls" style="display: {!if( urls.size = 0, 'block', 'none' )}">No URLs. :-(</div>
+			
+			<p style="display: {!if( urls.size > 0, 'block', 'none' )}">
+	            <apex:commandbutton value="Previous" styleclass="nameLinkPrev" action="{!prevLinks}" rerender="urlForm" rendered="{!hasPreviousPage}" />
+	            Page <span class="slightlyLessBigFont">{!pageNum}</span> of <span class="slightlyLessBigFont">{!totalPages}</span>
+	            <apex:commandbutton value="Next" styleclass="nameLinkNext" action="{!nextLinks}" rerender="urlForm" rendered="{!hasNextPage}"/>
+	        </p>
+			
+			<apex:pageblocktable value="{!urls}" var="u" rendered="{!urls.size > 0}">
+				<apex:column style="width: 60px">
+					<apex:commandlink oncomplete="lightbox();" action="{!loadURLClicks}" rerender="lightboxPanel,errors" title="View Clicks" >
+						<apex:image value="{!URLFOR( $Resource.LinkForce, 'information.png' )}" height="16" width="16" />
+						<apex:param name="urlID" assignto="{!urlID}" value="{!u.id}" />
+					</apex:commandlink>
+					<apex:commandlink action="{!loadURL}" rerender="editbox,errors" title="Edit URL">
+						<apex:image value="{!URLFOR( $Resource.LinkForce, 'pencil.png' )}" height="16" width="16" />
+						<apex:param name="urlID" assignto="{!urlID}" value="{!u.id}" />
+					</apex:commandlink>
+					<apex:outputlink value="#" onclick="deleteURL( '{!u.id}', '{!u.Short_URL__c}' );" title="Delete URL"><apex:image value="{!URLFOR( $Resource.LinkForce, 'delete.png' )}" height="16" width="16" /></apex:outputlink>
+				</apex:column>
+				<apex:column headervalue="Short URL">
+					<apex:outputlink value="{! URL_BASE & '/' & u.Short_URL__c }" target="_blank">{! URL_BASE & '/' & u.Short_URL__c }</apex:outputlink>
+				</apex:column>
+				<apex:column value="{!u.URL__c}" />
+				<apex:column value="{!u.Clicks__c}" />
+				<apex:column value="{!u.createddate}" />
+				<apex:column headervalue="Created By" value="{!u.createdbyid}" />
+			</apex:pageblocktable>
+		</apex:pageblock>	
+	</apex:form>
+</apex:page>

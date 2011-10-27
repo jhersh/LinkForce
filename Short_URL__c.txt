@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Clicks__c</fullName>
+        <label>Clicks</label>
+        <summaryForeignKey>Short_URL_Click__c.Short_URL__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Custom_URL__c</fullName>
+        <inlineHelpText>Optional custom shortened URL.</inlineHelpText>
+        <label>Custom URL</label>
+        <length>100</length>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Hashed_URL__c</fullName>
+        <label>Hashed URL</label>
+        <length>100</length>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Short_URL__c</fullName>
+        <formula>if(  AND( Custom_URL__c != null, LEN( Custom_URL__c ) &gt; 0 ), Custom_URL__c,  Hashed_URL__c )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Short URL</label>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>URL__c</fullName>
+        <inlineHelpText>URL to shorten.</inlineHelpText>
+        <label>URL</label>
+        <required>true</required>
+        <type>Url</type>
+    </fields>
+    <label>Short URL</label>
+    <nameField>
+        <displayFormat>{0}</displayFormat>
+        <label>Short URL Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Short URLs</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Custom_URL__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Short_URL__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Clicks__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>URL__c</customTabListAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

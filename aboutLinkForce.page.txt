@@ -1,0 +1,78 @@
+<!-- Jonathan Hersh - jhersh@salesforce.com - 8/10/2010 -->
+<apex:page tabstyle="About_LinkForce__tab">
+	<apex:stylesheet value="{!URLFOR( $Resource.LinkForce, 'about.css' )}" />
+	
+	<apex:sectionheader title="About LinkForce v1.32" />
+	
+	<h1 style="font-size:18px">LinkForce is a URL Shortener. It turns long URLs into short ones.</h1>
+	
+	<div style="clear:both"></div>
+	
+	<div class="aboutBox" style="width:60%">
+	<h2>For example, if your Sites domain was lf.force.com:</h2>
+	
+	<table class="lftable" cellpadding="5" cellspacing="5" border="0" width="60%">
+		<tr>
+			<td class="thead" ><strong>Before</strong></td><td></td><td class="thead" ><strong>After</strong></td>
+		</tr>
+		<tr>
+			<td>https://sites.secure.force.com/appexchange/listingDetail?listingId=a0N30000003GL36EAG</td>
+			<td><apex:image value="{!URLFOR( $Resource.LinkForce, 'rightarrow.png' )}" height="48" width="48" /></td>
+			<td><a href="http://lf.force.com/combopack" target="_blank">http://lf.force.com/combopack</a> (Custom shortened URL)</td>
+		</tr>
+		<tr>
+			<td><apex:outputtext value="http://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=1+market+st&sll=37.0625,-95.677068&sspn=43.799322, 79.628906&ie=UTF8&hq=&hnear=1+Market+St, +San+Francisco,+California+94105&z=16"/></td>
+			<td><apex:image value="{!URLFOR( $Resource.LinkForce, 'rightarrow.png' )}" height="48" width="48" /></td>
+			<td><a target="_blank" href="http://lf.force.com/1">http://lf.force.com/1</a></td>
+		</tr>
+		<tr>
+			<td>https://sites.secure.force.com/appexchange/listingDetail?listingId=a0N30000003I9j1EAC</td>
+			<td><apex:image value="{!URLFOR( $Resource.LinkForce, 'rightarrow.png' )}" height="48" width="48" /></td>
+			<td><a href="http://lf.force.com/0" target="_blank">http://lf.force.com/0</a></td>
+		</tr>
+	</table>
+	
+	</div>
+	
+	<div style="clear:both"></div>
+	
+	<div class="aboutBox">
+	<h2>Why is this useful?</h2>
+	
+	<ul>
+		<li>Track clicks, user agents, and other metrics with native Salesforce analytics</li>
+		<li>Rename long, unwieldy URLs into branded, memorable, human-readable links</li>
+		<li>Generate short links for Twitter, Facebook, and other character-constrained environments</li>
+		<li>Insure your organization's link history against the threat of your existing URL shortener going out of business</li>
+	</ul>
+	</div>
+	
+	<div class="aboutBox">	
+	<h2>What do I need to use it?</h2>
+	
+	<ul>
+		<li>Force.com Sites, optionally with your custom domain</li>
+		<li>LinkForce, free on the Appexchange</li>
+		<li>Some URLs to shorten</li>
+	</ul>
+	</div>
+	
+	<div class="aboutBox">	
+	<h2>How do I get started?</h2>
+	
+	<ol>
+		<li>Install the LinkForce Package from the Appexchange.</li>
+		<li>Create a new Force.com Site, or add the urlRedirect VF page and urlController, urlRewriter Apex controllers to your existing site.</li>
+		<li>Define your Base URL and Default URL in Setup -> Develop -> Custom Settings -> LinkForce Settings -> Manage. Your Base URL should match your Force.com Sites name.</li>
+		<li>Make sure your Sites guest user profile has permission to read the Short URL object, and create new Short URL Click objects.</li>
+		<li>Edit your Force.com Site and set 'urlRewriter' as the URL Rewriting class.</li>
+		<li>Start shortening!</li>
+	</ol>
+	</div>
+	
+	<div class="aboutBox">
+	<h2>I have a question...</h2>
+	
+	<p><a href="http://community.salesforce.com/t5/Force-com-Labs-Development-and/bd-p/labs">Post on the Force.com Labs boards</a> and I'll help you get started.</p>
+	</div>
+</apex:page>

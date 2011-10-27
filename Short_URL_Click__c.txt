@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Browser__c</fullName>
+        <formula>if( contains( lower( User_Agent__c ), &quot;opera&quot; ), &quot;opera&quot;,
+
+if( contains( lower( User_Agent__c ), &quot;msie&quot;	 ), &quot;Internet Explorer&quot;,
+if( contains( lower( User_Agent__c ), &quot;internet explorer&quot;	), &quot;Internet Explorer&quot;,
+if( contains( lower( User_Agent__c ), &quot;shiira&quot;	 ), &quot;Shiira&quot;,
+if( contains( lower( User_Agent__c ), &quot;chimera&quot;	 ), &quot;Chimera&quot;,
+if( contains( lower( User_Agent__c ), &quot;phoenix&quot;	 ), &quot;Phoenix&quot;,
+if( contains( lower( User_Agent__c ), &quot;firebird&quot;	 ), &quot;Firebird&quot;,
+if( contains( lower( User_Agent__c ), &quot;camino&quot;	 ), &quot;Camino&quot;,
+if( contains( lower( User_Agent__c ), &quot;netscape&quot;	 ), &quot;Netscape&quot;,
+if( contains( lower( User_Agent__c ), &quot;opera&quot;	 ), &quot;Opera&quot;,
+if( contains( lower( User_Agent__c ), &quot;chrome&quot;	 ), &quot;Chrome&quot;,
+if( contains( lower( User_Agent__c ), &quot;safari&quot;	 ), &quot;Safari&quot;,
+if( contains( lower( User_Agent__c ), &quot;firefox&quot;	 ), &quot;Firefox&quot;,
+if( contains( lower( User_Agent__c ), &quot;konqueror&quot;	 ), &quot;Konqueror&quot;,
+
+if( contains( lower( User_Agent__c ), &quot;mozilla&quot;	 ), &quot;Mozilla&quot;, &quot;Unknown Browser&quot;)))))))))))))))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Browser</label>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>IP_Address__c</fullName>
+        <label>IP Address</label>
+        <length>100</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>OS__c</fullName>
+        <formula>if( contains( lower( User_Agent__c ), &quot;windows nt 7&quot; ), &quot;Windows 7&quot;,
+	if( contains( lower( User_Agent__c ), &quot;windows nt 6&quot; ), &quot;Windows Vista&quot;,
+					if( contains( lower( User_Agent__c ), &quot;windows nt 5.2&quot;	), &quot;Windows 2003&quot;,
+					if( contains( lower( User_Agent__c ),&quot;windows nt 5.0&quot;	), &quot;Windows 2000&quot;,
+					if( contains( lower( User_Agent__c ),&quot;windows nt 5.1&quot;	), &quot;Windows XP&quot;,
+					if( contains( lower( User_Agent__c ),&quot;windows nt 4.0&quot;	), &quot;Windows NT 4.0&quot;,
+					if( contains( lower( User_Agent__c ),&quot;winnt4.0&quot;			), &quot;Windows NT 4.0&quot;,
+					if( contains( lower( User_Agent__c ),&quot;winnt 4.0&quot;			), &quot;Windows NT&quot;,
+					if( contains( lower( User_Agent__c ),&quot;winnt&quot;				), &quot;Windows NT&quot;,
+					if( contains( lower( User_Agent__c ),&quot;windows 98&quot;		), &quot;Windows 98&quot;,
+					if( contains( lower( User_Agent__c ),&quot;win98&quot;				), &quot;Windows 98&quot;,
+					if( contains( lower( User_Agent__c ),&quot;windows 95&quot;		), &quot;Windows 95&quot;,
+					if( contains( lower( User_Agent__c ),&quot;win95&quot;				), &quot;Windows 95&quot;,
+					if( contains( lower( User_Agent__c ),&quot;windows&quot;			), &quot;Unknown Windows OS&quot;,
+if( contains( lower( User_Agent__c ),&quot;iphone&quot;				), &quot;iPhone&quot;,
+if( contains( lower( User_Agent__c ),&quot;ipad&quot;				), &quot;iPad&quot;,
+					if( contains( lower( User_Agent__c ),&quot;os x 10.6&quot;				), &quot;Mac OS X 10.6&quot;,
+					if( contains( lower( User_Agent__c ),&quot;os x 10.5&quot;				), &quot;Mac OS X 10.5&quot;,
+					if( contains( lower( User_Agent__c ),&quot;os x 10.4&quot;				), &quot;Mac OS X 10.4&quot;,
+					if( contains( lower( User_Agent__c ),&quot;os x 10.3&quot;				), &quot;Mac OS X 10.3&quot;,
+					if( contains( lower( User_Agent__c ),&quot;os x&quot;				), &quot;Mac OS X&quot;,
+					if( contains( lower( User_Agent__c ),&quot;ppc mac&quot;			), &quot;Power PC Mac&quot;,
+					if( contains( lower( User_Agent__c ),&quot;freebsd&quot;			), &quot;FreeBSD&quot;,
+					if( contains( lower( User_Agent__c ),&quot;ppc&quot;				), &quot;Macintosh&quot;,
+					if( contains( lower( User_Agent__c ),&quot;linux&quot;				), &quot;Linux&quot;,
+					if( contains( lower( User_Agent__c ),&quot;debian&quot;			), &quot;Debian&quot;,
+					if( contains( lower( User_Agent__c ),&quot;sunos&quot;				), &quot;Sun Solaris&quot;,
+					if( contains( lower( User_Agent__c ),&quot;beos&quot;				), &quot;BeOS&quot;,
+					if( contains( lower( User_Agent__c ),&quot;apachebench&quot;		), &quot;ApacheBench&quot;,
+					if( contains( lower( User_Agent__c ),&quot;aix&quot;				), &quot;AIX&quot;,
+					if( contains( lower( User_Agent__c ),&quot;irix&quot;				), &quot;Irix&quot;,
+					if( contains( lower( User_Agent__c ),&quot;netbsd&quot;			), &quot;NetBSD&quot;,
+					if( contains( lower( User_Agent__c ),&quot;bsdi&quot;				), &quot;BSDi&quot;,
+					if( contains( lower( User_Agent__c ),&quot;openbsd&quot;			), &quot;OpenBSD&quot;,
+					if( contains( lower( User_Agent__c ),&quot;gnu&quot;				), &quot;GNU/Linux&quot;,
+					if( contains( lower( User_Agent__c ),&quot;unix&quot;				), &quot;Unknown Unix OS&quot;, &quot;Unknown OS&quot; ))))))))))))))))))))))))))))))))))))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>OS</label>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Referrer__c</fullName>
+        <label>Referrer</label>
+        <length>255</length>
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Short_URL__c</fullName>
+        <label>Short URL</label>
+        <referenceTo>Short_URL__c</referenceTo>
+        <relationshipLabel>Short URL Clicks</relationshipLabel>
+        <relationshipName>Short_URL_Clicks</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <type>MasterDetail</type>
+    </fields>
+    <fields>
+        <fullName>User_Agent__c</fullName>
+        <label>User Agent</label>
+        <length>255</length>
+        <type>Text</type>
+    </fields>
+    <label>Short URL Click</label>
+    <nameField>
+        <displayFormat>Click-{0000}</displayFormat>
+        <label>Short URL Click Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Short URL Clicks</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>
