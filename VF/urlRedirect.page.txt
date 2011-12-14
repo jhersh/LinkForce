@@ -1,4 +1,0 @@
-<!-- Jonathan Hersh - jhersh@salesforce.com - 8/5/2010 -->
-<apex:page showheader="false" controller="UrlController" cache="false" action="{!doRedirect}">
-
-</apex:page>
